@@ -22,6 +22,16 @@ def get_client():
     return jsonify(bigquery.get_clients())
 
 
+@app.get("/types")
+def get_task_types():
+    """
+        Returns a list of all task types
+        GET: /types
+        Returns: (JSON, String Array)
+    """
+    return jsonify(bigquery.get_task_types())
+
+
 @app.post("/team")
 def get_team():
     """

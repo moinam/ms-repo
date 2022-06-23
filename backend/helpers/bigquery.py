@@ -28,3 +28,13 @@ def get_clients():
                      "name": row.ClientName, "location": row.Location})
 
     return teams
+
+
+def get_task_types():
+    rows = client.query(
+        f"SELECT DISTINCT TaskType FROM `{PROJECT_NAME}.CompletedTasks` ORDER BY TaskType ASC").result()
+    types = []
+    for row in rows:
+        types.append(row.TaskType)
+
+    return types
