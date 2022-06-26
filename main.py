@@ -7,7 +7,9 @@ CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
-@app.route("/")
+@app.route("/", methods=['GET'])
+@app.route("/dashboard", methods=['GET'])
+@app.route("/support", methods=['GET'])
 def main():
     model = {"title": "Maintenance & Service Department."}
     return render_template('index.html', model=model)
