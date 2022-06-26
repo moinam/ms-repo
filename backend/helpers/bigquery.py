@@ -15,7 +15,8 @@ def get_time_spent_norm_prediction(client_id, task_type, quantity, limit=10):
             `{PROJECT_NAME}.Teams`.TeamId, \
             Location, \
             CAST(`{PROJECT_NAME}.PredictedTimeSpentNorm`.PredictedTimeSpentNorm * 3600 as int) as PredictedTimeSpentNorm, \
-            Duration as TravelDuration \
+            Duration as TravelDuration, \
+            Members \
         FROM \
             `{PROJECT_NAME}.PredictedTimeSpentNorm` \
         LEFT JOIN `{PROJECT_NAME}.Teams` ON `{PROJECT_NAME}.PredictedTimeSpentNorm`.TeamId = `{PROJECT_NAME}.Teams`.TeamId \
@@ -24,6 +25,16 @@ def get_time_spent_norm_prediction(client_id, task_type, quantity, limit=10):
             `{PROJECT_NAME}.LocationDistances`.ServicePointLocation = Location and \
             `{PROJECT_NAME}.LocationDistances`.ClientLocation = \
                 CONCAT(`{PROJECT_NAME}.Clients`.PostalCode, '-', `{PROJECT_NAME}.Clients`.City) \
+        LEFT JOIN ( \
+            SELECT \
+                TeamId, \
+                STRING_AGG(Name, ', ') AS Members \
+            FROM `{PROJECT_NAME}.TeamMembers` \
+            LEFT JOIN `{PROJECT_NAME}.ServiceEmployees` ON \
+                `{PROJECT_NAME}.TeamMembers`.ServiceEmployeeId = `{PROJECT_NAME}.ServiceEmployees`.ServiceEmployeeId \
+            GROUP BY TeamId \
+        ) as x ON \
+            `{PROJECT_NAME}.PredictedTimeSpentNorm`.TeamId = x.TeamId \
         WHERE `TaskType`='{task_type}' \
         ORDER BY PredictedTimeSpentNorm ASC \
         LIMIT {limit}").result()
@@ -34,6 +45,7 @@ def get_time_spent_norm_prediction(client_id, task_type, quantity, limit=10):
         predicted_working_time = prediction * int(quantity)
 
         predictions.append({"teamId": row.TeamId,
+                            "members": row.Members,
                             "location": row.Location,
                             "prediction": prediction,
                             "travelDuration": travel_duration,
