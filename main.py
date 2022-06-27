@@ -8,6 +8,8 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 @app.route("/", methods=['GET'])
+@app.route("/static/dashboard", methods=['GET'])
+@app.route("/static/support", methods=['GET'])
 @app.route("/dashboard", methods=['GET'])
 @app.route("/support", methods=['GET'])
 def main():
