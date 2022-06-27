@@ -12,19 +12,17 @@ const httpOptions = {
 })
 export class DataService {
   public locationReady = new Subject<boolean>();
-  urlMapApiConfig: any;
   map_config: any = {
     key: 'AIzaSyB5fQm8qdSuEpSbl7NrhLObmrN-g61kVo4',
   };
   teams: any;
   taskTypes: any;
   clients: any;
-  serverUrl = 'http://localhost:8080';
-  // serverUrl = '';
+  // serverUrl = 'http://localhost:8080'; //local setting
+  serverUrl = ''; //production setting
   clientLocation: any;
   teamLocation: any;
   constructor(private http: HttpClient, private spinner: NgxSpinnerService) {
-    this.urlMapApiConfig = '../assets/map-API-key.json';
   }
   load(): any {
     return new Promise((resolve, reject) => {

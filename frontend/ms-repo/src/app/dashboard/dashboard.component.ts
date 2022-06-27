@@ -14,11 +14,11 @@ export class DashboardComponent implements OnInit {
   search: any = '';
   teams: any;
   filterCriteria: any;
-  dispMap:boolean = false;
-  currentClient:any;
+  dispMap: boolean = false;
+  currentClient: any;
   clientLocation: any;
   teamLocation: any;
-  map_url = ""
+  map_url = '';
   constructor(
     public dataService: DataService,
     private spinner: NgxSpinnerService
@@ -34,25 +34,41 @@ export class DashboardComponent implements OnInit {
         console.log(this.dataService.clientLocation);
         console.log(this.dataService.teamLocation);
         this.map_url =
-          'https://maps.googleapis.com/maps/api/staticmap?size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C' +
+          'https://maps.googleapis.com/maps/api/staticmap?size=650x350&maptype=roadmap&markers=color:blue%7Clabel:C%7C' +
           this.dataService.clientLocation.lat +
           ',' +
           this.dataService.clientLocation.lng +
-          '&markers=color:green%7Clabel:G%7C' +
+          '&markers=color:green%7Clabel:T%7C' +
           this.dataService.teamLocation.lat +
           ',' +
           this.dataService.teamLocation.lng +
           '&key=' +
           this.dataService.map_config.key;
-          this.dispMap = true;
-          this.spinner.hide();
+        this.dispMap = true;
+        this.spinner.hide();
         this.dataService.locationReady.next(false);
       }
     });
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  getDate(timestamp: any): any {
+    let hours = Math.floor(timestamp / 60 / 60);
+    let minutes = Math.floor(timestamp / 60) - hours * 60;
+    let formatted = '';
+    if (hours > 0) {
+      formatted += hours.toString() + ' Hrs';
+      if (minutes > 0){
+        formatted += ' and ';
+      }
+    }
+    if (minutes > 0) {
+      formatted += minutes.toString() + ' min ';
+    }
+    return formatted;
   }
+
   getPrediction(): any {
     this.currentClient = this.selectedClient;
     this.filterCriteria.clientId = this.selectedClient.clientId;

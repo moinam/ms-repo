@@ -33,7 +33,6 @@
           <th>TeamID</th>
           <th>Location</th>
           <th>Members</th>
-          <th>Prediction</th>
           <th>Travel Duration</th>
           <th>Predicted Working Time</th>
           <th>Total Time</th>
@@ -45,10 +44,9 @@
           <td>{{team.teamId}}</td>
           <td>{{team.location}}</td>
           <td>{{team.members}}</td>
-          <td>{{team.prediction}}</td>
-          <td>{{team.travelDuration}}</td>
-          <td>{{team.predictedWorkingTime}}</td>
-          <td>{{team.total}}</td>
+          <td>{{getDate(team.travelDuration)}}</td>
+          <td>{{getDate(team.predictedWorkingTime)}}</td>
+          <td>{{getDate(team.total)}}</td>
           <td>
             <i class="fa-solid fa-map-location-dot" style="float: left; margin: 2px; cursor: pointer; color: #005952;"
               (click)="showMap(team)"></i>
@@ -59,7 +57,7 @@
   </div>
 </div>
 
-<p-dialog header="Map View" [(visible)]="dispMap" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+<p-dialog header="Map View" [(visible)]="dispMap" [modal]="true" [style]="{width: '700px'}" [baseZIndex]="10000"
   [draggable]="false" [resizable]="false">
   <img src={{map_url}}>
   <ng-template pTemplate="footer">
