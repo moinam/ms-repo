@@ -1,10 +1,10 @@
 import json
 from flask import Flask, Response, render_template, request, jsonify
-from flask_cors import CORS
+# from flask_cors import CORS
 from backend.helpers import bigquery
 app = Flask(__name__)
-CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
+# CORS(app)
+# app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 @app.route("/", methods=['GET'])
