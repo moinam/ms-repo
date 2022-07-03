@@ -7,6 +7,6 @@ COPY . .
 RUN pip install gunicorn
 RUN pip install -r requirements.txt
 
-# The environment variable sets the port that the application will run on (in this case, 80). The last line runs the web app using the gunicorn web server.
+# The environment variable sets the port that the application will run on (in this case, 8080). The last line runs the web app using the gunicorn web server.
 ENV PORT=8080
 CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 main:app
